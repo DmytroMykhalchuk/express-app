@@ -1,9 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { model } from "mongoose";
 import { Schema, Model } from "mongoose";
+import { UserMethods, UserSchema } from "../types/userTypes";
 
 mongoose.Promise = global.Promise;
 
-const userSchema = new Schema(
+
+type UserModel = Model<UserSchema, {}, UserMethods>;
+
+const userSchema = new Schema<UserSchema, UserModel, UserMethods>(
     {
         name: {
             type: String,
@@ -28,5 +32,4 @@ const userSchema = new Schema(
     },
 );
 
-export default
-    mongoose.models.User || mongoose.model('User', userSchema);
+export default mongoose.model<UserSchema, UserModel>('User', userSchema);

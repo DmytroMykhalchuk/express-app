@@ -1,15 +1,17 @@
-import { Request, Response } from "express";
-import connectDB from "../utils/connectDB";
-import User from "../models/User";
-import { handleError } from "../utils/handleErorr";
+import UserService from '../services/UserService';
+import { handleError } from '../utils/handleErorr';
+import { Request, Response } from 'express';
 
-export const getUser = async (req: Request, res: Response) => {
-    try {
-        await connectDB();
-        const users = await User.find();
-        res.status(200)
-            .send(users);
-    } catch (e) {
-        handleError(res,e);
-    }
+class UserController {
+    async getUser(req: Request, res: Response) {
+        try {
+            const users = await UserService.getUsers();
+            res.status(200)
+                .send(users);
+        } catch (e) {
+            handleError(res, e);
+        }
+    };
 };
+
+export default new UserController();
